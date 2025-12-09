@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manhattan club</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+</head>
+<body data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"><img src="./box2-heart.svg" alt="moveit brand icon" height="30" /> Manhattan Club</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="navLinks">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="aboutus.html">About Us</a>
+    </li>
+    <li class="nav-item dropdown" id="authDropdown">
+      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Menu
+      </a>
+      <ul class="dropdown-menu" id="dropdownMenu">
+        <li><a class="dropdown-item" href="signup.html">Sign Up</a></li>
+        <li><a class="dropdown-item" href="signin.html">Sign In</a></li>
+      </ul>
+    </li>
+</ul>
+
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
+            <button class="btn btn-outline-success" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<script>
+    document.querySelector('form').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const searchTerm = document.querySelector('input[name="q"]').value;
+    const response = await fetch(`/search?q=${encodeURIComponent(searchTerm)}`);
+    const results = await response.json();
+
+    // Dynamically display results on the page
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = ''; // Clear previous results
+    results.forEach(item => {
+        const p = document.createElement('p');
+        p.textContent = item.name; // Assuming 'name' is a property of your search results
+        resultsContainer.appendChild(p);
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const signedIn = localStorage.getItem("signedIn");
+    const realName = localStorage.getItem("realName");
+    const authDropdown = document.getElementById("authDropdown");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    if (signedIn === "true" && realName) {
+        // Replace the dropdown with "Account" button
+        authDropdown.innerHTML = `
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                ${realName}
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Log Out</a></li>
+            </ul>
+        `;
+
+        // Add logout functionality
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("signedIn");
+            localStorage.removeItem("realName");
+            location.reload(); // reload page to show Sign In / Sign Up again
+        });
+    }
+});
+</script>
+<div class="px-4 py-5 my-5 text-center"> <img class="d-block mx-auto mb-4" src="./box2-heart.svg" alt="" width="72" height="57"> <h1 class="display-5 fw-bold text-body-emphasis">Welcome</h1> <div class="col-lg-6 mx-auto"> <p class="lead mb-4">Thank you for signing up to Manhattan club. Or if you haven't, click <a href="signin.html">here</a> to go to the sign in webpage.
+Click about us to learn more. Goodbye, hope to see you again soon!</p> <div class="d-grid gap-2 d-sm-flex justify-content-sm-center"> <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Other</button> <button type="button" class="btn btn-outline-secondary btn-lg px-4">Contact Us</button> </div> </div> </div>
+
+<div data-bs-theme="dark" class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalTour"> <div class="modal-dialog"> <div class="modal-content rounded-4 shadow"> <div class="modal-body p-5"> <h2 class="fw-bold mb-0">What's new</h2> <ul class="d-grid gap-4 my-5 list-unstyled small"> <li class="d-flex gap-4"> <svg class="bi text-body-secondary flex-shrink-0" width="48" height="48" aria-hidden="true"><use xlink:href="signup.html"></use></svg> <div> <h5 class="mb-0">About us</h5>
+Learn more about us. A new feature to help you get to know us.
+</div> </li> <li class="d-flex gap-4"> <svg class="bi text-warning flex-shrink-0" width="48" height="48" aria-hidden="true"><use xlink:href="#bookmark-star"></use></svg> <div> <h5 class="mb-0">Join the crew</h5>
+We would love to have you! This new feature is an amazing way to get to know you.
+</div> </li> <li class="d-flex gap-4"> <svg class="bi text-primary flex-shrink-0" width="48" height="48" aria-hidden="true"><use xlink:href="#film"></use></svg> <div> <h5 class="mb-0">Memberships</h5>
+Join with a membership
+    <button type="button" class="btn btn-lg btn-primary mt-5 w-100" data-bs-dismiss="modal">Go to info page to learn more</button>
+</div> </li> </ul> </div> </div> </div> </div>
+
+</body>
+</html>

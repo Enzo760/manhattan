@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body { font-family: Arial; background-color: #f2f2f2; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+        input[type="submit"] { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input[type="submit"]:hover { background-color: #45a049; }
+        h2 { text-align: center; }
+        .success { color: green; text-align: center; }
+        .error { color: red; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="signupForm">
+            <h2>Sign Up</h2>
+            <div class="error" id="errorMsg"></div>
+            <div class="success" id="successMsg"></div>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <input type="submit" value="Sign Up">
+        </form>
+
+        <script>
+            const form = document.getElementById("signupForm");
+            const errorMsg = document.getElementById("errorMsg");
+            const successMsg = document.getElementById("successMsg");
+
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById("username").value;
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                // Check if account already exists
+                if (localStorage.getItem("account")) {
+                    const account = JSON.parse(localStorage.getItem("account"));
+                    if (account.username === username) {
+                        errorMsg.textContent = "Username already exists!";
+                        successMsg.textContent = "";
+                        return;
+                    }
+                }
+
+                // Save account to localStorage
+                const account = { username, email, password };
+                localStorage.setItem("account", JSON.stringify(account));
+
+                successMsg.textContent = "Account created successfully! You can now sign in.";
+                errorMsg.textContent = "";
+
+                // Clear form
+                form.reset();
+            });
+        </script>
+        <p>Already have an account? Click <a href="signin.html">here</a> to log in</p>
+    </div>
+</body>
+</html>
